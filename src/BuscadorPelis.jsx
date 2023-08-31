@@ -1,10 +1,11 @@
+import { useState } from 'react'
 export const BuscadorPelis = () => {
 
   const [busqueda, setBusqueda] = useState('')
   const [peliculas, setPeliculas] = useState([])
 
   const urlDB = 'https://api.themoviedb.org/3/search/movie'
-  const API_key = '697a7a62b6c71e3353796490333311d4'
+  const API_KEY = '697a7a62b6c71e3353796490333311d4'
 
 
   const handleInputChange = (e) => {
@@ -18,9 +19,14 @@ export const BuscadorPelis = () => {
 
   const fetchPeliculas = async () => {
     try{
-      const response = await fetch(`${urlBase}?query=${busqueda}&api_key=${API_KEY}`)
+      const response = await fetch(`${urlDB}?query=${busqueda}&api_key=${API_KEY}`)
       const data = await response.json()
+      console.log(data.results)
+      setPeliculas(data.results)
+    }catch(error){
+      console.log(error)
     }
+  }
 
   return (
     <div className="container">
@@ -36,7 +42,6 @@ export const BuscadorPelis = () => {
         <button type="submit" className="search-button">Buscar</button>
       </form>
 
-
       <div className="movie-list">
         {peliculas.map((pelicula) => (
           <div key={pelicula.id} className="movie-card">
@@ -48,6 +53,7 @@ export const BuscadorPelis = () => {
         ))}
 
       </div>
+
 
     </div>
   )
